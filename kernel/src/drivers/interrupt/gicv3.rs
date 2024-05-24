@@ -882,10 +882,10 @@ pub static INTERRUPT_EN_SET: Mutex<BTreeSet<usize>> = Mutex::new(BTreeSet::new()
 
 use crate::drivers::interrupt::warp::DeviceRef;
 pub static GICD: DeviceRef<GicDistributor> = unsafe { DeviceRef::new(platform::GICD_BASE as *const GicDistributor) };
-pub static GICR: DeviceRef<GicRedistributor> = unsafe { DeviceRef::new((platform::GICR_BASE) as *const GicRedistributor) };
-
+pub static GICR: DeviceRef<GicRedistributor> = unsafe { DeviceRef::new(platform::GICR_BASE as *const GicRedistributor) };
 pub static GICC: GicCpuInterface = GicCpuInterface;
 
+static GIC: LazyInit<i32> = LazyInit::new();
 
 fn this_cpu_id() -> usize {0}
 
