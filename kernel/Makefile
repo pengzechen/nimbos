@@ -72,7 +72,7 @@ ifeq ($(ARCH), x86_64)
 else ifeq ($(ARCH), aarch64)
   qemu_args += \
     -cpu cortex-a72 \
-    -machine virt \
+    -machine virt,gic-version=3 \
     -kernel $(kernel_bin)
 else ifeq ($(ARCH), riscv64)
   qemu_args += \

@@ -885,7 +885,6 @@ pub static GICD: DeviceRef<GicDistributor> = unsafe { DeviceRef::new(platform::G
 pub static GICR: DeviceRef<GicRedistributor> = unsafe { DeviceRef::new(platform::GICR_BASE as *const GicRedistributor) };
 pub static GICC: GicCpuInterface = GicCpuInterface;
 
-static GIC: LazyInit<i32> = LazyInit::new();
 
 fn this_cpu_id() -> usize {0}
 
@@ -934,11 +933,12 @@ pub fn gic_set_prio(int_id: usize, prio: u8) {
 static HANDLERS: IrqHandlerTable<IRQ_COUNT> = IrqHandlerTable::new();
 
 pub fn init() {
-    gic_glb_init();
-    gic_cpu_init();
+    // gic_glb_init();
+    // gic_cpu_init();
 }
 
 pub fn register_handler(vector: usize, handler: IrqHandler) {
+    info!("register vec: {}", vector);
     HANDLERS.register_handler(vector, handler);
 }
 
@@ -949,6 +949,7 @@ pub fn handle_irq(_vector: usize) {
 }
 
 pub fn set_enable(int_id: usize, en: bool) {
+    info!("set_enable vec: {}", int_id);
     use tock_registers::interfaces::Readable;
     // use crate::arch::{gic_set_enable, gic_set_prio};
     gic_set_enable(int_id, en);
