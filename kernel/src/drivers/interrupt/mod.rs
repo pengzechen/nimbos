@@ -23,6 +23,6 @@ pub use self::imp::handle_irq;
 pub(super) use self::imp::{init, register_handler, set_enable};
 
 
-pub mod platform;
-pub mod warp;
-pub mod v3regs;
+// pub mod platform;
+// pub mod warp;
+// pub mod v3regs;

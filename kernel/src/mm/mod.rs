@@ -6,7 +6,7 @@ mod uaccess;
 
 pub mod paging;
 
-pub use address::{PhysAddr, VirtAddr};
+pub use address::{PhysAddr, VirtAddr, phys_to_virt};
 pub use frame_allocator::PhysFrame;
 pub use memory_set::{kernel_aspace, MapArea, MemorySet};
 pub use uaccess::{UserInOutPtr, UserInPtr, UserOutPtr};
