@@ -255,7 +255,6 @@ pub trait GenericArmGic: Debug + Clone + Copy + Sync + Send + Sized {
 
     /// Get iidr register.
     fn get_iidr(&self) -> u32;
-
     /// Initializes the GIC distributor globally.
     ///
     /// It disables all interrupts, sets the target of all SPIs to CPU 0,
@@ -270,7 +269,6 @@ pub trait GenericArmGic: Debug + Clone + Copy + Sync + Send + Sized {
     ///
     /// This function should be called every cpu init.
     fn local_init(&mut self) ;
-
     /// The maximum number of interrupts that the GIC supports
     fn max_irqs(&self) -> usize ;
 
