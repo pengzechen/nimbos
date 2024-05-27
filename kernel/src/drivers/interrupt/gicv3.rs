@@ -51,6 +51,8 @@ fn gic_local_init() {
 }
 
 pub fn init() {
-    gic_global_init();
-    gic_local_init();
+    // gic_global_init();
+    unsafe {GIC.init_primary();}
+    // gic_local_init();
+    // per_cpu_init();
 }
