@@ -80,6 +80,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "dw_apb_uart"
+version = "0.1.0"
+dependencies = [
+ "tock-registers 0.8.1",
+]
+
+[[package]]
 name = "embedded-hal"
 version = "0.2.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -132,6 +139,7 @@ dependencies = [
  "buddy_system_allocator",
  "cfg-if",
  "cortex-a",
+ "dw_apb_uart",
  "log",
  "memoffset",
  "raw-cpuid",

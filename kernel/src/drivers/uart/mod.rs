@@ -3,8 +3,10 @@ cfg_if! {
         mod uart16550;
         use uart16550 as imp;
     } else if #[cfg(target_arch = "aarch64")] {
-        mod pl011;
-        use pl011 as imp;
+        // mod pl011;
+        // use pl011 as imp;
+        mod dw_apb_uart;
+        use self::dw_apb_uart as imp;
     } else if #[cfg(any(target_arch = "riscv32", target_arch = "riscv64"))] {
         mod riscv;
         use self::riscv as imp;

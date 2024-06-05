@@ -113,6 +113,11 @@ unsafe fn init_boot_page_table() {
 unsafe extern "C" fn _start() -> ! {
     // PC = 0x4008_0000
     core::arch::asm!("
+
+        mov x8, #98  // a
+        mov x9, #0xfeb50000 //串口地址，需要变化
+        str x8, [x9]
+
         adrp    x8, boot_stack_top
         mov     sp, x8
         bl      {switch_to_el1}

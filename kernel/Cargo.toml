@@ -26,6 +26,7 @@ memoffset = { version = "0.6", features = ["unstable_const"] }
 buddy_system_allocator = { version = "0.8", default-features = false }
 # spin = { version = "0.9.4", features = ["use_ticket_mutex"] }
 arm_gic = { path = "../arm_gic" }
+dw_apb_uart = { path = "../dw_apb_uart" }
 
 [target.'cfg(target_arch = "x86_64")'.dependencies]
 x86 = "0.47"
