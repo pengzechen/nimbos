@@ -6,12 +6,15 @@ use tock_registers::registers::{ReadOnly, ReadWrite, WriteOnly};
 
 use crate::mm::{PhysAddr, VirtAddr};
 use crate::sync::Mutex;
+use crate::platform::config::UART_BASE_PADDR;
 
-const UART_BASE: PhysAddr = PhysAddr::new(0x0900_0000);
+const UART_BASE: PhysAddr = PhysAddr::new(UART_BASE_PADDR);
 const UART_IRQ_NUM: usize = 33;
 
 static UART: Mutex<Pl011Uart> = Mutex::new(Pl011Uart::new(UART_BASE.into_kvaddr()));
 
+pub fn print_num(_prefix: &[u8], _num: usize) {
+}
 register_structs! {
     Pl011UartRegs {
         /// Data Register.

@@ -1,20 +1,19 @@
 
-
 use arm_gic::GicV3;
 use crate::mm::{PhysAddr, VirtAddr, phys_to_virt};
 use crate::utils::irq_handler::{IrqHandler, IrqHandlerTable};
 use arm_gic::GenericArmGic;
 
-
 const IRQ_COUNT: usize = 1024;
 
 static HANDLERS: IrqHandlerTable<IRQ_COUNT> = IrqHandlerTable::new();
 
-const GIC_BASE: usize = 0x0800_0000;
+const GIC_BASE: usize = crate::config::GICD_BASE_PADDR;
 const GICD_BASE: PhysAddr = PhysAddr::new(GIC_BASE);
-const GICC_BASE: PhysAddr = PhysAddr::new(GIC_BASE + 0xa0000);
+const GICR_BASE: PhysAddr = PhysAddr::new(crate::config::GICR_BASE_PADDR);
 
-pub static mut GIC: GicV3 = GicV3::new(GICD_BASE.into_kvaddr().as_mut_ptr(), GICC_BASE.into_kvaddr().as_mut_ptr());
+pub static mut GIC: GicV3 = GicV3::new(GICD_BASE.into_kvaddr().as_mut_ptr(), 
+    GICR_BASE.into_kvaddr().as_mut_ptr());
 
 pub fn set_enable(vector: usize, enable: bool) {
     info!("in platform gic set_enable: irq_num {}, enabled {}", vector, enable);

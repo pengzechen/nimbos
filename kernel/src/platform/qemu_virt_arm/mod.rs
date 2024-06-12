@@ -99,6 +99,7 @@ unsafe fn init_boot_page_table() {
         MemFlags::READ | MemFlags::WRITE | MemFlags::DEVICE,
         true,
     );
+
     // 0x0000_4000_0000..0x0000_8000_0000, 1G block, normal memory
     BOOT_PT_L1[1] = PageTableEntry::new_page(
         PhysAddr::new(0x4000_0000),
@@ -107,29 +108,33 @@ unsafe fn init_boot_page_table() {
     );
 }
 
+pub fn get_pte_attr(index: usize) -> u64 {
+    unsafe {
+        BOOT_PT_L1[index].inner()
+    }
+}
+
 #[naked]
 #[no_mangle]
 #[link_section = ".text.boot"]
 unsafe extern "C" fn _start() -> ! {
-    // PC = 0x4008_0000
     core::arch::asm!("
-
-        mov x8, #98  // a
-        mov x9, #0xfeb50000 //串口地址，需要变化
-        str x8, [x9]
-
-        adrp    x8, boot_stack_top
+        adrp    x8, {boot_stack}
+        add     x8, x8, {boot_stack_size}
         mov     sp, x8
         bl      {switch_to_el1}
         bl      {init_boot_page_table}
         bl      {init_mmu}
-        ldr     x8, =boot_stack_top
-        mov     sp, x8
+        mov     x8, {phys_virt_offset}
+        add     sp, sp, x8
         ldr     x8, ={rust_main}
         blr     x8
         b      .",
+        boot_stack = sym BOOT_STACK,
+        boot_stack_size = const BOOT_KERNEL_STACK_SIZE,
         switch_to_el1 = sym switch_to_el1,
         init_boot_page_table = sym init_boot_page_table,
+        phys_virt_offset = const crate::config::PHYS_VIRT_OFFSET,
         init_mmu = sym init_mmu,
         rust_main = sym crate::rust_main,
         options(noreturn),

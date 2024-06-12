@@ -31,18 +31,26 @@ export LOG
 make_args := ARCH=$(ARCH) PLATFORM=$(PLATFORM) MODE=$(MODE) LOG=$(LOG)
 
 # Paths
+ifeq ($(ARCH), aarch64)
+target := aarch64-unknown-none-softfloat
+kernel_elf := target/$(target)/$(MODE)/nimbos
+kernel_bin := $(kernel_elf).bin
+else 
 target := ../targets/$(ARCH).json
 kernel_elf := target/$(ARCH)/$(MODE)/nimbos
 kernel_bin := $(kernel_elf).bin
+endif
 
 # Cargo features and build args
 features := platform-$(PLATFORM)
 
+RUSTFLAGS := -C link_arg=-Tlinker.ld  -C link-arg=-no-pie
+export RUSTFLAGS
 ifeq ($(RVM), on)
   features += rvm
 endif
 
-build_args := --no-default-features --features "$(features)" --target $(target) -Zbuild-std=core,alloc -Zbuild-std-features=compiler-builtins-mem
+build_args := --no-default-features --features "$(features)" --target $(target)  -Zbuild-std=core,alloc -Zbuild-std-features=compiler-builtins-mem  -v
 ifeq ($(MODE), release)
   build_args += --release
 endif

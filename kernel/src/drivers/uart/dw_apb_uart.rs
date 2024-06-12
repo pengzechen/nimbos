@@ -5,11 +5,50 @@ use crate::sync::SpinNoIrqLock;
 
 use crate::mm::{PhysAddr, VirtAddr};
 use crate::sync::Mutex;
+use crate::platform::config::UART_BASE_PADDR;
 
-const UART_BASE: PhysAddr = PhysAddr::new(0xFEB50000);
-const UART_IRQ_NUM: usize = 333;
+const UART_BASE: PhysAddr = PhysAddr::new(UART_BASE_PADDR);
+const UART_IRQ_NUM: usize = 365;
 
 pub static UART: SpinNoIrqLock<DW8250> = SpinNoIrqLock::new(DW8250::new(UART_BASE.into_kvaddr().as_usize()));
+
+fn usize_to_u8_array(n: usize, buffer: &mut [u8; 20]) -> usize { 
+      let mut number = n;
+      let mut index = 0; 
+      if number == 0 {
+          buffer[index] = b'0';
+          return 1;
+      }
+      while number > 0 && index < buffer.len() {
+          buffer[index] = b'0' + (number % 10) as u8;
+          number /= 10;
+          index += 1;
+      }
+      buffer[0..index].reverse();
+      index 
+  }                                                                                   
+fn write_str(s: &[u8]){
+    for c in s {
+        match c {
+            b'\n' => {
+                console_putchar(b'\r');
+                console_putchar(b'\n');
+            }
+            _ => console_putchar(*c),
+        }
+    }
+}
+
+pub fn print_num(prefix: &[u8], num: usize) {
+    write_str(prefix);
+    if num != 0 {
+        let mut buffer = [0u8; 20];
+        let length = usize_to_u8_array(num, &mut buffer);
+        let u8_array = &buffer[0..length];
+        write_str(u8_array);
+    }
+    console_putchar(b'\n');
+}
 
 /// Writes a byte to the console.
 pub fn console_putchar(c: u8) {
@@ -30,7 +69,6 @@ pub fn console_getchar() -> Option<u8> {
 
 /// UART simply initialize
 pub fn init_early() {
-
 }
 
 

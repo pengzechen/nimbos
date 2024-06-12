@@ -112,9 +112,11 @@ impl From<MemFlags> for DescriptorAttr {
         } else {
             Self::from_mem_type(MemType::Normal)
         };
+
         if flags.contains(MemFlags::READ) {
             attr |= Self::VALID;
         }
+
         if !flags.contains(MemFlags::WRITE) {
             attr |= Self::AP_RO;
         }
@@ -142,6 +144,10 @@ impl PageTableEntry {
 
     pub const fn empty() -> Self {
         Self(0)
+    }
+
+    pub const fn inner(&self) -> u64 {
+        self.0
     }
 }
 
