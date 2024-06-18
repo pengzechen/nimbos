@@ -12,6 +12,7 @@ use crate::registers::gicv3_regs::*;
 use crate::sysregs::{read_sysreg, write_sysreg};
 use crate::{GenericArmGic, IntId, TriggerMode};
 
+use log::*;
 const SGI_OFFSET: usize = 0x10000;
 
 /// The GIC-V3 distributor.
@@ -156,7 +157,8 @@ impl GicDistributor {
                 ((espi_range + 1) * 32) as usize
             }
             true => 0,
-        }
+        };
+
     }
 
     fn wait_rwp(&self) {
@@ -293,7 +295,7 @@ impl GicRedistributor {
     pub const fn new(base: *mut u8) -> Self {
         Self {
             gicr_base: NonNull::new(base).unwrap().cast(),
-            support_ppi: 0,
+            support_ppi: usize::MAX,
         }
     }
 
@@ -476,7 +478,7 @@ impl GenericArmGic for GicV3 {
     /// Returns `None` if there is no pending interrupt of sufficient priority.
     fn get_and_acknowledge_interrupt(&self) -> Option<IntId> {
         // SAFETY: Reading this system register doesn't access memory in any way.
-        let intid = unsafe { read_sysreg!(icc_iar1_el1) } as usize;
+        let intid = unsafe {read_sysreg!(icc_iar1_el1) } as usize;
         if intid == IntId::SPECIAL_START {
             None
         } else {
