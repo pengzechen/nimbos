@@ -293,7 +293,7 @@ impl GicRedistributor {
     pub const fn new(base: *mut u8) -> Self {
         Self {
             gicr_base: NonNull::new(base).unwrap().cast(),
-            support_ppi: 0,
+            support_ppi: usize::MAX,
         }
     }
 

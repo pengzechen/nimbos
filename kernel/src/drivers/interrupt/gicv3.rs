@@ -29,7 +29,7 @@ pub fn set_enable(vector: usize, enable: bool) {
 pub fn handle_irq(_vector: usize) {
     let intid = unsafe { GIC.get_and_acknowledge_interrupt() };
     if let Some(id) = intid {
-        info!("handle irq {:?}", id);
+        // info!("handle irq {:?}", id);
         HANDLERS.handle(id.into());
         unsafe {
             GIC.end_interrupt(id);
