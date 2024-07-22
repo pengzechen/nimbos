@@ -1,6 +1,6 @@
 # Arguments
 ARCH ?= x86_64
-MODE ?= release
+MODE ?= debug
 LOG ?= warn
 RVM ?= off
 GUEST ?= off
@@ -72,7 +72,7 @@ ifeq ($(ARCH), x86_64)
 else ifeq ($(ARCH), aarch64)
   qemu_args += \
     -cpu cortex-a72 \
-    -machine virt,gic-version=3 \
+    -machine virt,gic-version=2 \
     -kernel $(kernel_bin)
 else ifeq ($(ARCH), riscv64)
   qemu_args += \

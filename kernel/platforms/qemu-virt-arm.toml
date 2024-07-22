@@ -1,10 +1,14 @@
-phys-memory-base = "0x4000_0000"
+phys-memory-base = "0x7000_0000"
 phys-memory-size = "0x800_0000"     # 128M
-kernel-base-paddr = "0x4008_0000"
-kernel-base-vaddr = "0xffff_0000_4008_0000"
+kernel-base-paddr = "0x7020_0000"
+kernel-base-vaddr = "0xffff_0000_7020_0000"
 mmio-regions = [
     ["0x0900_0000", "0x1000"],      # PL011 UART
     # ["0x0800_0000", "0x2_0000"],    # GICv2
-    ["0x0800_0000", "0x2_0000"],   #v3: gicd
-    ["0x080a_0000", "0xf6_0000"],  #v3: gicr
+
+    # 这个地址将来要写成 vgicd
+    ["0x0800_0000", "0x1_0000"],   #v3: gicd
+
+    # 这里使用 qemu 的 gicv 地址
+    ["0x0804_0000", "0x1_0000"],   #v3: gicc
 ]

@@ -8,8 +8,10 @@ pub fn init_early() {
 }
 
 pub fn init() {
-    println!("Initializing drivers...");
     interrupt::init();
+    println!("Initializing gic done.");
     uart::init();
+    println!("Initializing uart done.");
     timer::init();
+    println!("Initializing timer done.");
 }

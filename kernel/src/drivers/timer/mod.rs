@@ -5,8 +5,10 @@ cfg_if! {
         mod x86_common;
         use x86_common as imp;
     } else if #[cfg(target_arch = "aarch64")] {
-        mod arm_generic_timer;
-        use arm_generic_timer as imp;
+        // mod arm_generic_timer;
+        // use arm_generic_timer as imp;
+        mod arm_generic_timer_hv;
+        use arm_generic_timer_hv as imp;
     } else if #[cfg(any(target_arch = "riscv32", target_arch = "riscv64"))] {
         mod riscv;
         use self::riscv as imp;

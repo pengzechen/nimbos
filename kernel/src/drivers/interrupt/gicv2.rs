@@ -12,7 +12,8 @@ use crate::utils::irq_handler::{IrqHandler, IrqHandlerTable};
 
 const GIC_BASE: usize = 0x0800_0000;
 const GICD_BASE: PhysAddr = PhysAddr::new(GIC_BASE);
-const GICC_BASE: PhysAddr = PhysAddr::new(GIC_BASE + 0x10000);
+// const GICC_BASE: PhysAddr = PhysAddr::new(GIC_BASE + 0x10000);
+const GICC_BASE: PhysAddr = PhysAddr::new(GIC_BASE + 0x40000);
 
 const PPI_BASE: usize = 16;
 const SPI_BASE: usize = 32;
@@ -184,12 +185,12 @@ impl Gic {
             }
         }
         // Initialize all the SPIs to edge triggered
-        for i in SPI_BASE..self.max_irqs {
-            self.configure_interrupt(i, TriggerMode::Edge, Polarity::ActiveHigh);
-        }
+        // for i in SPI_BASE..self.max_irqs {
+        //     self.configure_interrupt(i, TriggerMode::Edge, Polarity::ActiveHigh);
+        // }
 
         // enable GIC
-        gicd.CTLR.set(1);
+        gicd.CTLR.set((1<<0)|(1<<1));
         gicc.CTLR.set(1);
         // unmask interrupts at all priority levels
         gicc.PMR.set(0xff);

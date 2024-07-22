@@ -6,10 +6,10 @@ cfg_if! {
         pub use apic::local_apic;
         pub use apic::vectors::*;
     } else if #[cfg(target_arch = "aarch64")] {
-        // mod gicv2;
-        // use gicv2 as imp;
-        mod gicv3;
-        use gicv3 as imp;
+        mod gicv2;
+        use gicv2 as imp;
+        // mod gicv3;
+        // use gicv3 as imp;
     } else if #[cfg(any(target_arch = "riscv32", target_arch = "riscv64"))] {
         mod riscv_intc;
         use riscv_intc as imp;
