@@ -1,5 +1,5 @@
 # Arguments
-ARCH ?= x86_64
+ARCH ?= aarch64
 MODE ?= debug
 LOG ?= warn
 RVM ?= off

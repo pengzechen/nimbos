@@ -1,0 +1,14 @@
+phys-memory-base = "0x5000_0000"
+phys-memory-size = "0x800_0000"     # 128M
+kernel-base-paddr = "0x5020_0000"
+kernel-base-vaddr = "0xffff_0000_5020_0000"
+mmio-regions = [
+    ["0x0900_0000", "0x1000"],      # PL011 UART
+    # ["0x0800_0000", "0x2_0000"],    # GICv2
+
+    # 这个地址将来要写成 vgicd
+    ["0x0800_0000", "0x1_0000"],   #v3: gicd
+
+    # tiny-armos 把gicc map到了gicv， 这里直接使用gicc就行
+    ["0x0801_0000", "0x1_0000"],   #v3: gicc
+]

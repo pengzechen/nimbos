@@ -1,5 +1,5 @@
-ARCH ?= x86_64
-MODE ?= release
+ARCH ?= aarch64
+MODE ?= debug
 
 BUILD_RUST ?= y
 BUILD_C ?= y
