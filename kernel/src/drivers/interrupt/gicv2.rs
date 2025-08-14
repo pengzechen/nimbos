@@ -13,7 +13,7 @@ use crate::utils::irq_handler::{IrqHandler, IrqHandlerTable};
 const GIC_BASE: usize = 0x0800_0000;
 const GICD_BASE: PhysAddr = PhysAddr::new(GIC_BASE);
 // const GICC_BASE: PhysAddr = PhysAddr::new(GIC_BASE + 0x10000);
-const GICC_BASE: PhysAddr = PhysAddr::new(GIC_BASE + 0x40000);
+const GICC_BASE: PhysAddr = PhysAddr::new(GIC_BASE + 0x10000);
 
 const PPI_BASE: usize = 16;
 const SPI_BASE: usize = 32;

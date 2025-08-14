@@ -579,5 +579,5 @@ impl GenericArmGic for GicV3 {
     fn cpu_num(&self) -> usize { 0 }
 
     /// Configures the trigger mode for the given interrupt.
-    fn configure_interrupt(&mut self, vector: usize, tm: TriggerMode) {}
+    fn configure_interrupt(&mut self, _vector: usize, _tm: TriggerMode) {}
 }

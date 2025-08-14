@@ -8,6 +8,7 @@ pub fn init_early() {
 }
 
 pub fn init() {
+    println!("Initializing gic...");
     interrupt::init();
     println!("Initializing gic done.");
     uart::init();
